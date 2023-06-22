@@ -1,0 +1,98 @@
+# Holiday calulator programme to request input of destination, number of nights stay in hotel and days required for car rental. Output is the total cost of the holiday with a breakdown of each component.
+
+#---Functions---
+# Function to calculate to total cost for the holiday.
+def hotel_cost(city_flight,num_nights):
+  hotel_night = (hotels_dict[city_flight])
+  hotel_total = float(hotel_night * num_nights)
+  return(hotel_total)
+
+# Function to calculate to total cost for the flight.
+def plane_cost(city_flight):
+  flight_total = (flights_dict[city_flight])
+  return(flight_total)
+
+# Function to calculate to total cost for the car rental.
+def car_rental(rental_days):
+  car_total = rental_days * 30
+  return(car_total)
+
+# Function to calculate to total cost for the holiday.
+def holiday_cost():
+  plane = plane_cost(city_flight)
+  if num_nights > 0:
+    hotel = hotel_cost(city_flight,num_nights)
+  else:
+    hotel = 0
+  if rental_days > 0:
+    car = car_rental(rental_days)
+  else:
+    car = 0
+  holiday_total = hotel + plane + car
+  return(holiday_total)
+
+# Function to format an amount as GBP, 2dp.
+def currency_format(x):
+  return (f"£{x:.2f}")
+
+#---Lists and Dictionaries---
+# Code creating 3 dictionaries to be used for calculating flight, hotel and car costs based on user input for city.
+city_numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+destination_option = ["Amsterdam", "Barcelona", "Budapest", "Dubai", "London", "Las Vegas", "New York", "Paris", "Rome"]
+hotel_price = [138, 132, 65, 71, 350, 171, 270, 99, 103]
+flights_price = [93, 47, 70, 256, 54, 478, 287, 30, 63]
+destination_dict = dict(zip(city_numbers,destination_option))
+hotels_dict = dict(zip(destination_option,hotel_price))
+flights_dict = dict(zip(destination_option,flights_price))
+
+#---User Input Section---
+print("Available destinations for your super awesome holiday:")
+print()
+print("\n".join("{}\t-\t{}".format(keys, values) for keys, values in destination_dict.items()))
+print()
+
+# Loop begins requesting valid input for desintation city.
+while True:
+  try: 
+    city_number = int(input("Which city would you like to travel to? (enter number) "))
+    if (city_number >= 1 or city_number <= 8):
+      city_flight = destination_dict.get(city_number)
+      break
+    else: 
+      False
+      print()
+      print("Sorry I can't use that.")
+  except ValueError:
+    print()
+    print("Sorry I can't use that.")
+#Loop ends requesting valid input for desintation city.
+
+# Loop begins requesting valid input for the number of nights stay.
+while True:
+  try: 
+    num_nights = int(input("How many nights stay in the hotel? "))
+    break
+  except ValueError:
+    print()
+    print("Sorry I can't use that.")
+#Loop ends requesting valid input for the number of nights stay.
+
+# Loop begins requesting valid input for how many days car rental.
+while True:
+  try: 
+    rental_days = int(input("How many days car rental? "))
+    break
+  except ValueError:
+    print()
+    print("Sorry I can't use that.")
+#Loop ends requesting valid input for how many days car rental.
+
+
+#---Programme Output---
+print()
+print()
+print(f"Your holiday to {city_flight} will cost you {currency_format(holiday_cost())} in total. The breakdown is below:")
+print()
+print(f"For the flight to {city_flight} - {currency_format(plane_cost(city_flight))}")
+print(f"For {num_nights} nights stay in a hotel - {currency_format(hotel_cost(city_flight,num_nights))}")
+print(f"For {rental_days} days use of a rental car - {currency_format(car_rental(rental_days))}")
