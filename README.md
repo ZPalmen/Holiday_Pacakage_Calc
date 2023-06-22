@@ -1,4 +1,4 @@
-# Holiday_Pacakage_Calc
+# Holiday_Package_Calc
 Demonstrating knowledge of functions
 
 ## Project Details:
